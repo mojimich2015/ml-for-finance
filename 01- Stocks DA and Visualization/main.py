@@ -33,4 +33,9 @@ print("\t" +
           stocks_df.std().index.where(stocks_df.std().values == min(stocks_df.std())).notnull()
           ]) 
 )
+print("\n")
 
+
+print("- Describe The Stocks Data: ")
+print(stocks_df.describe())
+print("\n")
