@@ -44,3 +44,20 @@ print("- Check If We Have Any Null Values: ")
 print(stocks_df.isnull().sum())
 print("\n")
 
+print("- Getting Dataframe Info: ")
+print(stocks_df.info())
+print("\n")
+
+
+# Define a function to plot the entire dataframe
+def show_plot(df, fig_title):
+    df.plot(x= 'Date', figsize= (15, 7), linewidth= 3, title=fig_title)
+    plt.grid()
+    plt.show()
+
+print('- Plotting the data: ')
+show_plot(stocks_df, 'RAW Stock Prices (Without Normalization):')
+print("\n")
+
+
+    
