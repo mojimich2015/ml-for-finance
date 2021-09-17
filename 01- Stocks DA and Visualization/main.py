@@ -39,3 +39,8 @@ print("\n")
 print("- Describe The Stocks Data: ")
 print(stocks_df.describe())
 print("\n")
+
+print("- Check If We Have Any Null Values: ")
+print(stocks_df.isnull().sum())
+print("\n")
+
