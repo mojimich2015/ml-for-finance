@@ -60,4 +60,44 @@ show_plot(stocks_df, 'RAW Stock Prices (Without Normalization):')
 print("\n")
 
 
+# Define a function to normalize the data
+def normalize(df):
+    x = df.copy()
+    for i in x.columns[1:]:
+        x[i] = x[i] / x[i][0]
+    return x
+
+
+print("- Normalized Data: ")
+print(normalize(stocks_df))
+print("\n")
+
+print('- Plotting the normalized data: ')
+show_plot(normalize(stocks_df), 'RAW Stock Prices (Without Normalization):')
+print("\n")
+
+
+# Create a function to show interactive plot
+def interactive_plot(df, title):
+    fig = px.line(title= title)
+    for i in df.columns[1:]:
+        fig.add_scatter(x= df['Date'], y= df[i], name=i)
+        
+    fig.show()
+
+print("- Print interactive chart: ")
+interactive_plot(stocks_df, 'Prices')
+print("\n")
+
+
+print("- Print nornalized dataframe interactively: ")
+interactive_plot(normalize(stocks_df), 'Normalized Prices')
+print("\n")
+
+
+print("- Calculate net loss from Feb 19th, 2020 to March 23rd, 2020 Of Tesla")
+priceAtFeb = stocks_df.loc[stocks_df['Date'] == '2020-02-19']['TSLA'].values[0]
+priceAtMarch = stocks_df.loc[stocks_df['Date'] == '2020-03-23']['TSLA'].values[0]
+stocksQty = 100
+print((priceAtMarch - priceAtFeb) * stocksQty)
     
