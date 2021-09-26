@@ -100,4 +100,74 @@ priceAtFeb = stocks_df.loc[stocks_df['Date'] == '2020-02-19']['TSLA'].values[0]
 priceAtMarch = stocks_df.loc[stocks_df['Date'] == '2020-03-23']['TSLA'].values[0]
 stocksQty = 100
 print((priceAtMarch - priceAtFeb) * stocksQty)
+
+
+print("- Calculating daily return for a single security: ")
+df_amzn = stocks_df['AMZN']
+df_amzn_daily_return = df_amzn.copy()
+for j in range(1, len(df_amzn)):
+    df_amzn_daily_return[j] = ((df_amzn[j] - df_amzn[j-1]) / df_amzn[j-1]) * 100
+
+df_amzn_daily_return[0] = 0
+print(df_amzn_daily_return)
+print("\n")
+
+
+print("- Calculate multiple stocks daily return: ")
+def daily_return(df): 
+    df_daily_return = df.copy() 
+    for i in df.columns[1:]:
+        for j in range(1, len(df)):
+            df_daily_return[i][j] = ( ( df[i][j] - df[i][j-1]) / df[i][j] ) * 100
+        df_daily_return[i][0] = 0
+    return df_daily_return 
+
+stocks_daily_return = daily_return(stocks_df)
+print(stocks_daily_return)
+print("\n")
+
+
+
+print("- Show daily return on plot: ")
+show_plot(daily_return(stocks_df), "DAILY RETURNS")
+print("\n")
     
+print("- Show daily return on interactive plot: ")
+interactive_plot(daily_return(stocks_df), "DAILY RETURNS")
+print("\n")
+
+
+print("- Calculate the correlations between daily returns: ")
+cm = stocks_daily_return.drop(columns=['Date']).corr()
+print(cm) 
+
+
+print("- Show the correlations between daily returns: ")
+plt.figure(figsize= (10, 10))
+sns.heatmap(cm, annot=True)
+plt.show()
+print("\n")
+
+
+
+print("- Plot the histogram for daily returns :")
+stocks_daily_return.hist(figsize= (10, 10), bins= 40)
+plt.show()
+print("\n")
+
+
+
+print("- Plot above histogram in interactive mode: ")
+df_hist = stocks_daily_return.copy() 
+df_hist = df_hist.drop(columns= ['Date'])
+data = []
+for i in df_hist.columns:
+    data.append(stocks_daily_return[i].values)
+
+print(data)
+fig = ff.create_distplot(data, df_hist.columns)
+fig.show()
+
+
+
+print("End!")
